@@ -15,8 +15,11 @@ export const useShibaStore = defineStore('shibas', () => {
     pending.value = true;
     const response = await fetch(`https://dog.ceo/api/breed/shiba/images/random/${number}`);
     const shibas = await response.json();
-    if (shibas.status !== "success") errorMessage.value = shibas.status!.toString();
     pending.value = false;
+    if (shibas.status !== "success") {
+      errorMessage.value = shibas.status!.toString();
+      return;
+    }
     return shibas.message.forEach((shiba: string) => shibaList.value.push(shiba))
   }
 
